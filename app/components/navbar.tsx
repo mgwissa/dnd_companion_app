@@ -7,8 +7,12 @@ import Link from "next/link";
 import NavbarLinksLarge from "./navbar-links-large";
 import NavbarMenuSmall from "./navbar-menu-small";
 
+import { useAppSelector } from "../hooks/redux-hooks";
+
 export default function Navbar() {
   const [largeView, setLargeView] = useState(false);
+
+  // const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn.value);
 
   useEffect(() => {
     const handleResize = () => {
