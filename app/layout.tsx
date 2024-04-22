@@ -6,6 +6,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
+import Modal from "./components/modal";
+import { StoreProvider } from "./store/provider";
 
 export const metadata: Metadata = {
   title: "DnD Companion App",
@@ -20,9 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
-        <Footer />
+        <StoreProvider>
+          <Navbar />
+          {children}
+          <Footer />
+          <Modal />
+        </StoreProvider>
       </body>
     </html>
   );

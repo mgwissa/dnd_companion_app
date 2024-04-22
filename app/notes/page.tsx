@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useState } from "react";
 
+
 export default function Notes() {
   const notes = [
     { id: 1, content: "Note 1" },
