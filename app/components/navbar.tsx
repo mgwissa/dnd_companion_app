@@ -1,36 +1,40 @@
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Logo from "/public/logo.png";
 import Link from "next/link";
 
-import { useDispatch } from "react-redux";
-import { setShowModal } from "../store/slices/app/modal-reducer";
+import NavbarLinksLarge from "./navbar-links-large";
+import NavbarMenuSmall from "./navbar-menu-small";
+
+import { useAppSelector } from "../hooks/redux-hooks";
 
 export default function Navbar() {
-  const dispatch = useDispatch();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [largeView, setLargeView] = useState(false);
 
-  const handleModalOpen = () => {
-    dispatch(setShowModal(true));
-  };
+  // const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn.value);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setLargeView(true);
+      } else {
+        setLargeView(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <div className="flex justify-between">
-      <div className="w-1/2">
-        <Image src="/DnD-Symbol.png" alt="D&D" width={128} height={77} />
-      </div>
-      <div className="flex justify-evenly w-1/2">
-        <Link href="/">Home</Link>
-        <Link href="/next">Next</Link>
-        <Link href="/notes">Notes</Link>
-        <Link href="/sign-up">
-          <button>Sign Up/Login</button>
-        </Link>
-        <div onClick={handleModalOpen} className="cursor-pointer">
-          show modal
-        </div>
-      </div>
+    <div className="bg-gray-800 text-white p-4 flex justify-between">
+      {!largeView && <NavbarMenuSmall />}
+      <Link href="/">
+        <Image src={Logo} alt="logo" width={106} height={50} />
+      </Link>
+      {largeView && <NavbarLinksLarge />}
     </div>
   );
 }
